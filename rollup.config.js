@@ -9,8 +9,9 @@ export default defineConfig({
     format: "es",
     
   },
-  external:["axios"],
+  external:[axios],
   plugins: [typescript({
     tsconfig:"tsconfig.json"
   })],
+  external: ['axios'] 
 });
