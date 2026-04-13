@@ -3,7 +3,7 @@ import axios from "axios";
 import typescript from "@rollup/plugin-typescript";
 
 export default defineConfig({
-  input: "src/SendOtp.ts",
+  input: "src/index.ts",
   output: {
     dir: "dist",
     format: "es",

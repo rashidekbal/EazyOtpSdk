@@ -1,6 +1,6 @@
 {
   "name": "eazyotp",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "email otp sdk free ",
   "keywords": [
     "eazyOtp",
@@ -9,7 +9,7 @@
   "license": "ISC",
   "author": "rasid ekbal",
   "type": "module",
-  "main": "dist/SendOtp.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx rollup -c"
   },

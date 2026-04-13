@@ -8,7 +8,6 @@ export default function sendOtp(email:string,company:string,apiKey:string){
         const Url=formUrl(otpUrl,apiKey);
         try {
             let result=await axios.post(Url,{email:email,company:company});
-           
             return resolve(result.data);
         } catch (error) {
            return reject(error);
