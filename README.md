@@ -1,6 +1,6 @@
 # EazyOtp
 
-A lightweight, free, and easy-to-use Node.js SDK for sending Email OTPs (One-Time Passwords) via the EazyOtp microservice.
+A lightweight, free, and easy-to-use Node.js SDK for sending and verifying Email OTPs (One-Time Passwords) via the EazyOtp microservice.
 
 ## Installation
 
@@ -15,39 +15,49 @@ npm install eazyotp
 - **Built-in Validation**: Automatically validates email formats before sending requests.
 - **Promise-based**: Uses modern `Promises` with `async/await` for seamless integration.
 - **Typescript Support**: The package is written in TypeScript and exports its own types.
+- **Send & Verify**: Comprehensive flow to request an OTP and securely verify the user-provided code.
 
 ## Usage
 
-This package is implemented as an ES Module. You can use it in your application by importing the default `sendOtp` function.
+This package is implemented as an ES Module. You can use it in your application by importing the `sendOtp` and `verifyOtp` functions.
 
 ### Basic Example (Async/Await)
 
 ```javascript
-import sendOtp from "eazyotp";
+import { sendOtp, verifyOtp } from "eazyotp";
 
-async function requestOtp() {
+async function authFlow() {
   const email = "user@example.com";
-  // The name of your platform to show the user
-  const company = "My Awesome App"; 
-  // Your API Key for EazyOtp
-  const apiKey = "your-api-key-here";
+  const company = "My Awesome App"; // The name of your platform to show the user
+  const apiKey = "your-api-key-here"; // Your API Key for EazyOtp
 
   try {
-    const response = await sendOtp(email, company, apiKey);
-    console.log("Status:", response.status);
-    console.log("Sent OTP:", response.message);
+    // 1. Send OTP
+    const sendResponse = await sendOtp(email, company, apiKey);
+    console.log("Send OTP Response:", sendResponse);
+
+    // 2. Verify OTP
+    // Normally you would receive this '123456' from the user input
+    const userEnteredOtp = 123456; 
+    const isVerified = await verifyOtp(email, userEnteredOtp, apiKey);
+    
+    if (isVerified) {
+      console.log("OTP Verified successfully!");
+    } else {
+      console.log("Invalid OTP.");
+    }
   } catch (error) {
-    console.error("Failed to send OTP:", error);
+    console.error("Error during OTP flow:", error);
   }
 }
 
-requestOtp();
+authFlow();
 ```
 
 ### Promises Example
 
 ```javascript
-import sendOtp from "eazyotp";
+import { sendOtp } from "eazyotp";
 
 const email = "user@example.com";
 const company = "My Awesome App";
@@ -55,8 +65,7 @@ const apiKey = "your-api-key-here";
 
 sendOtp(email, company, apiKey)
   .then((response) => {
-    console.log("Status:", response.status);
-    console.log("Sent OTP:", response.message);
+    console.log("Sent OTP:", response);
   })
   .catch((error) => {
     console.error("Failed to send OTP:", error);
@@ -74,7 +83,7 @@ sendOtp(email, company, apiKey)
 | `apiKey`  | `string` | Your securely generated EazyOtp API Key.                  |
 
 **Returns:** 
-A Promise that resolves with the server response if successful. The response object typically contains a `status` and a `message` where the `message` holds the sent OTP. 
+A Promise that resolves with the server response if successful. The response object typically contains a `status` and a `message` where the `message` holds information about the action.
 
 **Example Response:**
 ```json
@@ -86,9 +95,22 @@ A Promise that resolves with the server response if successful. The response obj
 
 If an error occurs, the Promise is rejected with an error object/string.
 
+### `verifyOtp(email, otp, apiKey)`
+
+| Parameter | Type     | Description                                               |
+| :-------- | :------- | :-------------------------------------------------------- |
+| `email`   | `string` | The recipient's email address. Must be a valid email format. |
+| `otp`     | `number` | The OTP code entered by the user.                         |
+| `apiKey`  | `string` | Your securely generated EazyOtp API Key.                  |
+
+**Returns:** 
+A Promise that resolves to a boolean `true` if the OTP is valid and correctly verified. It resolves to `false` if the verification fails (e.g., wrong OTP). 
+
+If an error occurs (such as missing parameters or network errors returning a 403 status), the Promise is rejected.
+
 ## Error Handling
 
-The SDK will quickly reject the promise with an `"invalid email"` string if the format is incorrect. For API-related or network errors, it throws the `axios` error context.
+The SDK will quickly reject the promise with an `"invalid email"` or `"invalid parameters"` string if the format is incorrect or arguments are missing. For API-related or network errors, it throws the `axios` error context.
 
 ## License
 
