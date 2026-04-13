@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { verifyUrl } from "./constants.js";
 import formUrl from "./utils/formUrl.js";
 
