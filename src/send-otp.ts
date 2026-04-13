@@ -4,7 +4,8 @@ import { isValidEmail } from "./utils/regex.js"
 import axios from "axios"
 export default function sendOtp(email:string,company:string,apiKey:string){
     return new Promise(async(resolve,reject)=>{
-        if(!email||!isValidEmail(email))return reject("invalid email");
+        if(!email||!company||!apiKey)return reject("invalid parameters");
+        if(!isValidEmail(email))return reject("invalid email");
         const Url=formUrl(otpUrl,apiKey);
         try {
             let result=await axios.post(Url,{email:email,company:company});
