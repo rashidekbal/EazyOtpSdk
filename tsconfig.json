@@ -4,7 +4,8 @@
     "module": "esnext",
     "declaration": true,
     "strict": true,
-    "declarationDir": "dist",
+    "rootDir": "./src",
+    "outDir": "./dist",
    "allowSyntheticDefaultImports":true
    
   },
