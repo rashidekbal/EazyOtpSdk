@@ -2,6 +2,8 @@
 
 A lightweight, free, and easy-to-use Node.js SDK for sending and verifying Email OTPs (One-Time Passwords) via the EazyOtp microservice.
 
+🌐 **Official Website:** [https://eazy-otp-official.vercel.app/](https://eazy-otp-official.vercel.app/)
+
 ## Installation
 
 Install the package via npm:
@@ -11,6 +13,7 @@ npm install eazyotp
 ```
 
 ## Features
+
 - **Fast & Reliable**: Connects directly to the EazyOtp microservice.
 - **Built-in Validation**: Automatically validates email formats before sending requests.
 - **Promise-based**: Uses modern `Promises` with `async/await` for seamless integration.
@@ -38,9 +41,9 @@ async function authFlow() {
 
     // 2. Verify OTP
     // Normally you would receive this '123456' from the user input
-    const userEnteredOtp = 123456; 
+    const userEnteredOtp = 123456;
     const isVerified = await verifyOtp(email, userEnteredOtp, apiKey);
-    
+
     if (isVerified) {
       console.log("OTP Verified successfully!");
     } else {
@@ -76,20 +79,21 @@ sendOtp(email, company, apiKey)
 
 ### `sendOtp(email, company, apiKey)`
 
-| Parameter | Type     | Description                                               |
-| :-------- | :------- | :-------------------------------------------------------- |
+| Parameter | Type     | Description                                                  |
+| :-------- | :------- | :----------------------------------------------------------- |
 | `email`   | `string` | The recipient's email address. Must be a valid email format. |
-| `company` | `string` | The name of your company or application sending the OTP.  |
-| `apiKey`  | `string` | Your securely generated EazyOtp API Key.                  |
+| `company` | `string` | The name of your company or application sending the OTP.     |
+| `apiKey`  | `string` | Your securely generated EazyOtp API Key.                     |
 
-**Returns:** 
+**Returns:**
 A Promise that resolves with the server response if successful. The response object typically contains a `status` and a `message` where the `message` holds information about the action.
 
 **Example Response:**
+
 ```json
 {
-  "status": "success",
-  "message": "123456"
+  "status": "200",
+  "message": "success"
 }
 ```
 
@@ -97,14 +101,14 @@ If an error occurs, the Promise is rejected with an error object/string.
 
 ### `verifyOtp(email, otp, apiKey)`
 
-| Parameter | Type     | Description                                               |
-| :-------- | :------- | :-------------------------------------------------------- |
+| Parameter | Type     | Description                                                  |
+| :-------- | :------- | :----------------------------------------------------------- |
 | `email`   | `string` | The recipient's email address. Must be a valid email format. |
-| `otp`     | `number` | The OTP code entered by the user.                         |
-| `apiKey`  | `string` | Your securely generated EazyOtp API Key.                  |
+| `otp`     | `number` | The OTP code entered by the user.                            |
+| `apiKey`  | `string` | Your securely generated EazyOtp API Key.                     |
 
-**Returns:** 
-A Promise that resolves to a boolean `true` if the OTP is valid and correctly verified. It resolves to `false` if the verification fails (e.g., wrong OTP). 
+**Returns:**
+A Promise that resolves to a boolean `true` if the OTP is valid and correctly verified. It resolves to `false` if the verification fails (e.g., wrong OTP).
 
 If an error occurs (such as missing parameters or network errors returning a 403 status), the Promise is rejected.
 
